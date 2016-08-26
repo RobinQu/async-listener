@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.tap.js"
+    "test": "tap est/*.tap.js"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,15 @@
     "node": "<=0.11.8 || >0.11.10"
   },
   "dependencies": {
+    "async-hook": "^1.6.0",
+    "debug": "^2.2.0",
     "shimmer": "1.0.0"
   },
   "devDependencies": {
-    "tap": "^0.7.1"
+    "eslint": "^3.3.1",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
+    "tap": "^6.3.0"
   }
 }
