@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "tap est/*.tap.js"
+    "test": "tap --reporter=list test/*.tap.js"
   },
   "repository": {
     "type": "git",

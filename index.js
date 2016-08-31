@@ -7,7 +7,6 @@ const Pool = new WeakMap();
 const Listeners = [];
 
 const AsyncCatcher = function (e) {
-  // process._rawDebug('async catcher');
   let handled = false;
   for(const listener of Listeners) {
     if(typeof listener.error === 'function') {
@@ -21,7 +20,6 @@ process.on('uncaughtException', AsyncCatcher);
 
 const Hooks = {};
 Hooks.init = function () {
-  process._rawDebug((arguments, new Error()).stack);
   for(const listener of Listeners) {
     if(listener.create) {
       Pool.set(listener, listener.create(listener.data));
@@ -40,7 +38,6 @@ Hooks.pre = function (uid, handle) {
 };
 
 Hooks.post = function (uid, handle, didThrow) {
-  // process._rawDebug('post', didThrow);
   for(const listener of Listeners) {
     if(!didThrow && typeof listener.after === 'function') {
       listener.after(handle, Pool.get(listener));
