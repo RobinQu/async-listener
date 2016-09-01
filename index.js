@@ -10,7 +10,7 @@ const AsyncCatcher = function (e) {
   let handled = false;
   for(const listener of Listeners) {
     if(typeof listener.error === 'function') {
-      handled = listener.error(Pool.get(listener), e);
+      handled = listener.error(null, e);
     }
   }
   return handled;
@@ -19,12 +19,12 @@ const AsyncCatcher = function (e) {
 process.on('uncaughtException', AsyncCatcher);
 
 const Hooks = {};
-Hooks.init = function () {
+Hooks.init = function (uid, handle) {
   for(const listener of Listeners) {
     if(listener.create) {
-      Pool.set(listener, listener.create(listener.data));
+      Pool.set(handle, listener.create(listener.data));
     } else {
-      Pool.set(listener, listener.data);
+      Pool.set(handle, listener.data);
     }
   }
 };
@@ -32,7 +32,7 @@ Hooks.init = function () {
 Hooks.pre = function (uid, handle) {
   for(const listener of Listeners) {
     if(typeof listener.before === 'function') {
-      listener.before(handle, Pool.get(listener));
+      listener.before(handle, Pool.get(handle));
     }
   }
 };
@@ -40,7 +40,7 @@ Hooks.pre = function (uid, handle) {
 Hooks.post = function (uid, handle, didThrow) {
   for(const listener of Listeners) {
     if(!didThrow && typeof listener.after === 'function') {
-      listener.after(handle, Pool.get(listener));
+      listener.after(handle, Pool.get(handle));
     }
   }
 };
